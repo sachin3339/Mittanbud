@@ -1,0 +1,26 @@
+
+
+
+
+
+.df-booking2__form .drpdwn-select{
+    width: 100%;
+    height: 60px;
+    border: 1px solid rgba(20, 20, 20, 0.15);
+    line-height: 60px;
+    border-radius: 0;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 18px;
+   
+    outline: none;
+    padding-left: 20px;
+    padding-right: 44px;
+    position: relative;
+    -webkit-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+        background-color: #fff;
+        border-radius: 5px;
+        border: solid 1px #e8e8e8;
+}
+
