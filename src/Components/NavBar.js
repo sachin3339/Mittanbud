@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { COMPANY_LOGO } from "./Icon";
 
 const NavBar = () => {
   const [infoOpen, setInfoOpen] = useState(false);
@@ -16,6 +18,11 @@ const NavBar = () => {
   const toggleOffsetContent = () => {
     setOffsetShow(!offsetShow);
   };
+
+  const navigate = useNavigate()
+  const handleClick = () => {
+    navigate("/jobpost");
+  }
   return (
     <>
       <div class="mouseCursor cursor-outer"></div>
@@ -29,10 +36,10 @@ const NavBar = () => {
                 <div class="header__main-content-wrapper p-relative">
                   <div class="header__main-left">
                     <div class="header__logo">
-                      <a href="/" class="logo-dark"><img src="assets/img/logo/logo.png" alt="logo-img" /></a>
+                      <a href="/" class="logo-dark">{COMPANY_LOGO}</a>
                     </div>
                     <div class="area-separator d-none d-lg-inline-flex"></div>
-                    {/* <div class="main-menu d-none d-xl-block">
+                    <div class="main-menu d-none d-xl-block">
                       <nav id="mobile-menu">
                         <ul>
 
@@ -81,7 +88,7 @@ const NavBar = () => {
 
                         </ul>
                       </nav>
-                    </div>*/}
+                    </div>
                   </div>
                   <div class="header__main-right">
                     <div class="location-search d-none d-lg-inline-flex">
@@ -94,7 +101,7 @@ const NavBar = () => {
                       <a href="/register"><span>Register Company</span></a>
                     </div>
                     <div class="location-search d-none d-lg-inline-flex">
-                      <button type="submit" class="primary-btn">Post Job
+                      <button type="submit" class="primary-btn" onClick={handleClick}>Post Job
                         <span class="icon__box">
                           <img class="icon__first" src="assets/img/icon/arrow-white.webp" alt="image not found" />
                           <img class="icon__second" src="assets/img/icon/arrow-white.webp" alt="image not found" />

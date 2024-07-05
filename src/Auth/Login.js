@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ButtonLoader from "../Components/ButtonLoader";
 
 const Login = () => {
+  const [buttonLoader, setButtonLoader] = useState(false);
+  const navigate = useNavigate()
+
+  const handleLoginClick = () => {
+    navigate("/dashboard")
+    setButtonLoader(true)
+  }
   return (
     <>
       <main>
@@ -52,7 +61,14 @@ const Login = () => {
                       </div>
                       <div class="col-md-12">
                         <div class="df-booking2__form-btn mt-15 mb-30">
-                          <button type="submit" class="primary-btn sign-btn w-100">login
+                          <button type="submit" class="primary-btn sign-btn w-100" onClick={handleLoginClick}>
+                            {
+                              buttonLoader ?
+                                <ButtonLoader loadingMessage="wait..." style={{ border: '1px solid #fff' }} />
+                                :
+
+                                'Login'
+                            }
                             <span class="icon__box">
                               <img class="icon__first" src="assets/img/icon/arrow-white.webp" alt="image not found" />
                               <img class="icon__second" src="assets/img/icon/arrow-white.webp" alt="image not found" />
@@ -65,7 +81,7 @@ const Login = () => {
                           <span class="sign-title">
                             Don’t have an account?
                           </span>
-                          <a class="sign-link" href="elements-sign-up.html">Sign Up</a>
+                          <a class="sign-link" href="/login">Sign Up</a>
                         </div>
                       </div>
                     </div>
