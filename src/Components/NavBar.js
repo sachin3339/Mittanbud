@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { COMPANY_LOGO } from "./Icon";
+import GLOBELCONSTANT from "../Const/GlobalConst";
 
 const NavBar = () => {
   const [infoOpen, setInfoOpen] = useState(false);
   const [offsetShow, setOffsetShow] = useState(false);
-
+  const Menu = GLOBELCONSTANT.Services.category
+  console.log(Menu)
   const toggleSideInfo = () => {
     setInfoOpen(!infoOpen);
     if (!infoOpen) {
@@ -46,44 +48,35 @@ const NavBar = () => {
                           <li class="menu-item-has-children">
                             <a href="#">Menu</a>
                             <ul class="sub-menu">
-                              <li class="menu-item-has-children">
-                                <a href="portfolio-classic.html">Portfolio</a>
-                                <ul class="sub-menu">
-                                  <li><a href="portfolio-grid.html">Portfolio Grid</a></li>
-                                  <li><a href="portfolio-classic.html">Portfolio Classic</a></li>
-                                  <li><a href="portfolio-list.html">Portfolio List</a></li>
-                                  <li><a href="portfolio-masonry.html">Portfolio Masonry</a></li>
-                                  <li>
-                                    <a href="portfolio-details.html">Portfolio Details</a>
-                                  </li>
-                                </ul>
-                              </li>
-                              <li class="menu-item-has-children">
-                                <a href="services.html">Services</a>
-                                <ul class="sub-menu">
-                                  <li><a href="services.html">Services</a></li>
-                                  <li><a href="services-v2.html">Services-02</a></li>
-                                  <li><a href="service-details.html">Service Details</a></li>
-                                </ul>
-                              </li>
-                              <li class="menu-item-has-children">
-                                <a href="team.html">Team</a>
-                                <ul class="sub-menu">
-                                  <li><a href="team.html">Team</a></li>
-                                  <li>
-                                    <a href="team-details.html">Team Details</a>
-                                  </li>
-                                </ul>
-                              </li>
-                              <li><a href="shop.html">Shop</a></li>
-                              <li><a href="shop-details.html">Shop Details</a></li>
-                              <li><a href="wishlist.html">Wishlist</a></li>
-                              <li><a href="cart.html">Cart</a></li>
-                              <li><a href="checkout.html">Checkout</a></li>
-                              <li><a href="pricing-plan.html">Pricing Plan</a></li>
-                              <li><a href="faq.html">FAQ</a></li>
-                              <li><a href="error-404.html">Error 404</a></li>
+                              {
+
+                                Menu.map((category) => {
+                                  return (
+
+                                    <li class="menu-item-has-children">
+                                      <Link to={`/category/${category.categoryname}`} >{category.categoryname}</Link>
+                                      <ul class="sub-menu">
+                                        {
+                                          category.subecategory.map((subcategory) => {
+                                            return (
+
+                                              <li><Link to={`/jobapply/${subcategory}`}>{subcategory}</Link></li>
+
+
+                                            )
+                                          })
+
+                                        }
+                                      </ul>
+                                    </li>
+
+
+
+                                  )
+                                })
+                              }
                             </ul>
+
                           </li>
 
                         </ul>

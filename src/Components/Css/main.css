@@ -1,5 +1,41 @@
 
+/* Scrollbar Styles */
 
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px; /* Increased width for better visibility */
+  height: 5px; /* Added height for horizontal scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(249, 245, 255); 
+  border-radius: 10px; /* Rounded corners for the track */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #0B8D2D; 
+  border-radius: 10px; /* Rounded corners for the handle */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0B8D2D; /* Darker color on hover for better feedback */
+}
+
+/* Handle on active (when clicked) */
+::-webkit-scrollbar-thumb:active {
+  background: #0B8D2D; /* Even darker color when active */
+}
+
+/* Scrollbar corner for when both horizontal and vertical scrollbars are present */
+::-webkit-scrollbar-corner {
+  background: rgb(249, 245, 255); /* Match the track background color */
+}
 
 .df-booking2__form .drpdwn-select{
     width: 100%;
@@ -39,6 +75,16 @@
   background: #054616;
   color: white;
   border-radius: 50%;
+}
+
+.apply-job-btn{
+  background-color: transparent;
+  border: 1px solid rgba(20, 20, 20, 0.15);
+  padding: 10px;
+  border-radius: 12px;
+}
+.mt-5{
+  margin-top: 20px;
 }
 
 

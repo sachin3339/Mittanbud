@@ -15,12 +15,14 @@ import OtherServices from "./Screens/OtherServices/OtherServices";
 import JobPost from "./JobPost/JobPost";
 import Dashboard from "./Dashboard/Dashboard";
 import { addBodyClass, removeBodyClass } from "./Utils/ManageBodyClass"; // Import the utility functions
+import Applyjob from "./ApplyJob/Applyjob";
+import Category from "./Category/Category";
 
 function Layout() {
   const location = useLocation();
-  const validPaths = ["/", "/login", "/contactus", "/register", "/privacy-policy", "/other-services", "/jobpost", "/dashboard", "/mypost"];
+  const validPaths = ["/", "/category", "/jobapply/:type", "/login", "/contactus", "/register", "/privacy-policy", "/other-services", "/jobpost", "/dashboard", "/mypost"];
   const hideNavAndFooter = location.pathname === "/dashboard" || location.pathname === "/mypost" || !validPaths.includes(location.pathname);
-
+  console.log(location.pathname)
   useEffect(() => {
     if (location.pathname === "/dashboard") {
       addBodyClass("dashboard-body");
@@ -44,6 +46,8 @@ function Layout() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/other-services" element={<OtherServices />} />
         <Route path="/jobpost" element={<JobPost />} />
+        <Route path="/jobapply/:type" element={<Applyjob />} />
+        <Route path="/category/:type" element={<Category />} />
         <Route path="/*" element={<Dashboard />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>

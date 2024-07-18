@@ -9173,6 +9173,7 @@ div.mean-container a.meanmenu-reveal {
   display: flex;
   gap: 20px;
   align-items: center;
+  justify-content: space-between;
 }
 .df-testimonial2__author {
   font-size: 28px;
@@ -9185,10 +9186,17 @@ div.mean-container a.meanmenu-reveal {
   }
 }
 .df-testimonial2__author-thumb {
-  width: 88px;
+  /* width: 88px;
   height: 88px;
   border-radius: 50%;
-  overflow: hidden;
+  overflow: hidden; */
+  width: 88px;
+  padding: 10px;
+    /* height: 88px; */
+    /* border-radius: 5px; */
+    /* overflow: hidden; */
+    border: 1px solid rgba(20, 20, 20, 0.15);
+
 }
 .df-testimonial2__navigation {
   position: absolute;
