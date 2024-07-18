@@ -1,8 +1,8 @@
 // Sidebar.js
 import React from 'react';
-
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FAV_ICON } from './Icon';
+import RestService from '../Services/api.service';
 
 const Sidebar = ({
     activeMenu,
@@ -16,6 +16,36 @@ const Sidebar = ({
     const menus = [{ "name": 'Dashboard', "route": '/dashboard' }, { "name": 'My Post', "route": '/mypost' }];
 
     const location = useLocation();
+    const navigate = useNavigate();
+    let user = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : "";
+
+    //logout the user
+    const logoutUser = async () => {
+
+        try {
+
+            const userId = user?.user?._id;
+            const payload = {
+                "user_id": userId
+            }
+            const response = await RestService.logoutUser(payload);
+            console.log(response);
+
+            // Navigate to the dashboard
+            if (response.status === 200) {
+                localStorage.clear();
+                navigate('/login');
+            }
+        } catch (err) {
+            if (err.response.status === 401) {
+                localStorage.clear();
+                navigate('/login');
+            }
+            console.error("Error occurred on logoutUser page", err);
+        }
+    };
 
     return (
         <section id="sidebar" className={sidebarHidden ? 'hide' : ''}>
@@ -45,9 +75,9 @@ const Sidebar = ({
                     </Link>
                 </li>
                 <li>
-                    <Link to="/login" className="logout">
+                    <Link to="#" className="logout">
                         <i className='bx bxs-log-out-circle'></i>
-                        <span className="text">Logout</span>
+                        <span className="text" onClick={() => logoutUser()}>Logout</span>
                     </Link>
                 </li>
             </ul>
