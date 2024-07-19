@@ -65,7 +65,7 @@ const NavBar = () => {
                                           category.subecategory.map((subcategory) => {
                                             return (
 
-                                              <li><Link to={`/jobapply/${subcategory}`}>{subcategory}</Link></li>
+                                              <li><Link to={`/sub-category/${subcategory}`}>{subcategory}</Link></li>
 
 
                                             )

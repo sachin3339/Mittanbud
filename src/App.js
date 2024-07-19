@@ -17,10 +17,11 @@ import Dashboard from "./Dashboard/Dashboard";
 import { addBodyClass, removeBodyClass } from "./Utils/ManageBodyClass"; // Import the utility functions
 import Applyjob from "./ApplyJob/Applyjob";
 import Category from "./Category/Category";
-
+import SubCategory from "./Category/SubCategory";
+// import Signup from "./Auth/Signup";
 function Layout() {
   const location = useLocation();
-  const validPaths = ["/", "/category", "/jobapply/:type", "/login", "/contactus", "/register", "/privacy-policy", "/other-services", "/jobpost", "/dashboard", "/mypost"];
+  const validPaths = ["/", "/category", "/jobapply/:type", "/login", "/signup", "/contactus", "/register", "/privacy-policy", "/other-services", "/jobpost", "/dashboard", "/mypost"];
   const hideNavAndFooter = location.pathname === "/dashboard" || location.pathname === "/mypost" || !validPaths.includes(location.pathname);
   console.log(location.pathname)
   useEffect(() => {
@@ -48,7 +49,9 @@ function Layout() {
         <Route path="/jobpost" element={<JobPost />} />
         <Route path="/jobapply/:type" element={<Applyjob />} />
         <Route path="/category/:type" element={<Category />} />
+        <Route path="/sub-category/:type" element={<SubCategory />} />
         <Route path="/*" element={<Dashboard />} />
+        {/* <Route path="/signup" element={<Signup />} />*/}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       {!hideNavAndFooter && <Footer />}

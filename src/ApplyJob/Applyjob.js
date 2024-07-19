@@ -17,7 +17,7 @@ const Applyjob = () => {
                                 <div class="section__title-wrapper side">
                                     <span class="section__subtitle bg-lighter">Pest Control</span>
                                     <h2 class="section__title">Do you need pest control?</h2>
-                                    <p>No matter which pests you have problems with, at Mittanbud you will find a pest controller who will help you with pest control.</p>
+                                    <p>No matter which pests you have problems with, at Tenders space you will find a pest controller who will help you with pest control.</p>
                                     <ul>
                                         <li>Post the job completely free of charge</li>
                                         <li>Receive non-binding offers from companies</li>
@@ -101,7 +101,7 @@ const Applyjob = () => {
 
                                         </div>
                                         <div className="mt-5">
-                                            <p>ProffPaint AS has carried out several jobs from Mittanbud in Vestby, Nordre Follo, Ås, with 5.0 out of 5 stars from 257 clients. Read experiences or contact ProffPaint AS here!
+                                            <p>ProffPaint AS has carried out several jobs from Tenders space in Vestby, Nordre Follo, Ås, with 5.0 out of 5 stars from 257 clients. Read experiences or contact ProffPaint AS here!
                                             </p>
                                         </div>
 

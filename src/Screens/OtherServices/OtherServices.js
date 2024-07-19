@@ -18,7 +18,7 @@ const OtherServices = () => {
                                     <span class="section__subtitle bg-lighter">Other</span>
                                     <h2 class="section__title">All other services for you</h2>
                                     <br />
-                                    <p>Below you will find an overview of everything Mittanbud can help you with. On these links you will find more information about the various services.z</p>
+                                    <p>Below you will find an overview of everything Tenders space can help you with. On these links you will find more information about the various services.z</p>
                                     <p>Can't find what you're looking for?</p>
                                     <div class="df-newsletter__form othcat">
                                         <form action="#">

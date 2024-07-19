@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { POST, POST_ICON } from "../Components/Icon";
 
-const Category = () => {
+const SubCategory = () => {
     const { type } = useParams()
     const services = [
         {
@@ -116,33 +116,7 @@ const Category = () => {
                             </div>
 
                         </div>
-                        <div class="row justify-content-center section-title-spacing mb-40 wow fadeInUp" data-wow-delay=".3s" >
-                            <div class="col-xl-8">
-                                <div class="section__title-wrapper text-center">
-                                    <h2 class="section__title" style={{ marginTop: "25px" }}>Explore the companies doing {type}</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row g-5 row-cols-xl-3 row-cols-md-2 row-cols-1 wow fadeInUp" data-wow-delay=".3s">
-                            {services.map((service, index) => (
-                                <div className="col" key={index}>
-                                    <div className="service__box">
-                                        <div className="service__content" style={{ textAlign: "center" }}>
-                                            <div className="service__img">
-                                                <img src={service.imgSrc} alt="image not found" />
-                                            </div>
-                                            <h4 className="service__title">
-                                                <a href={service.detailsLink}>{service.title}</a>
-                                            </h4>
-                                            <p className="service__text">{service.description}</p>
-                                            <div className="get" style={{ marginTop: "25px" }}>
-                                                <a href="#" className="primary-btn btn-x-small">Get Details</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+
 
 
 
@@ -150,7 +124,7 @@ const Category = () => {
                         <div class="row g-5 justify-content-center section-title-spacing mb-40 wow fadeInUp" data-wow-delay=".3s" >
                             <div class="col-xl-8">
                                 <div class="section__title-wrapper text-center">
-                                    <h2 class="section__title" style={{ marginTop: "25px" }}>Explore the job of being a {type}</h2>
+                                    <h2 class="section__title" style={{ marginTop: "25px" }}>Explore the Subcategory doing {type}</h2>
                                 </div>
                             </div>
                         </div>
@@ -189,4 +163,7 @@ const Category = () => {
     );
 };
 
-export default Category;
+
+
+
+export default SubCategory;
