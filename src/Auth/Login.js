@@ -7,6 +7,7 @@ import { TokenService } from "../Services/storage.service";
 import ToastMessage from "../Store/ToastHook";
 import hidePwdImg from './hide-password.svg';
 import showPwdImg from "./show-password.svg";
+import { ToastContainer } from "react-toastify";
 
 
 const Login = () => {
@@ -57,7 +58,7 @@ const Login = () => {
       TokenService.saveToken(response.data?.accessToken);
 
       // Navigate to the dashboard
-      if (data?.user?.type === 'user') {
+      if (data?.user?.type === 'user' || data?.user?.type === 'company') {
         navigate('/dashboard');
       }
       // else if (data?.role === 'PROCTOR') {
@@ -72,18 +73,22 @@ const Login = () => {
         // Network connection error
         ToastMessage({ type: 'warning', message: 'Please Check Your Network Connection' });
       } else if (err.response && err.response.status === 500) {
-        ToastMessage({ type: 'error', message: err.response.data });
+        ToastMessage({ type: 'error', message: err.response.data.resultMessage.en });
       } else if (err.response && err.response.status === 401) {
         // Other errors
-        ToastMessage({ type: 'error', message: err.response.data });
+        ToastMessage({ type: 'error', message: err.response.data.resultMessage.en });
+      }
+      else{
+        ToastMessage({ type: 'error', message: err.response.data.resultMessage.en });
       }
 
       console.error("Error occurred on loginUser page", err);
     }
   };
-  
+
   return (
     <>
+      <ToastContainer />
       <main>
 
         <div class="adjust-header-space bg-common-white"></div>
@@ -141,9 +146,9 @@ const Login = () => {
                       </div>
                       <div class="col-md-12">
                         <div class="df-booking2__form-btn mt-15 mb-30">
-                          <button type="submit" class="primary-btn sign-btn w-100" 
-                          disabled={!isValid || password.length === 0} 
-                           onClick={() => loginUser()}>
+                          <button type="submit" class="primary-btn sign-btn w-100"
+                            disabled={!isValid || password.length === 0}
+                            onClick={() => loginUser()}>
                             {
                               buttonLoader ?
                                 <ButtonLoader loadingMessage="wait..." style={{ border: '1px solid #fff' }} />
@@ -163,7 +168,7 @@ const Login = () => {
                           <span class="sign-title">
                             Don’t have an account?
                           </span>
-                          <a class="sign-link" href="/login">Sign Up</a>
+                          <a class="sign-link" href="/signup">Sign Up</a>
                         </div>
                       </div>
                     </div>

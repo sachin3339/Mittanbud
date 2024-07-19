@@ -12,7 +12,9 @@ const GLOBELCONSTANT = {
         LOGIN: API + "user/login",
         LOGOUT: API + "user/logout",
     },
-
+    JOB: {
+        CREATE_JOB: API + "jobs/postjob"
+    },
     Services: {
         category: [
             {

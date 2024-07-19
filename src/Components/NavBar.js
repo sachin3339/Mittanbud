@@ -6,6 +6,9 @@ import GLOBELCONSTANT from "../Const/GlobalConst";
 const NavBar = () => {
   const [infoOpen, setInfoOpen] = useState(false);
   const [offsetShow, setOffsetShow] = useState(false);
+  let user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : "";
   const Menu = GLOBELCONSTANT.Services.category
   console.log(Menu)
   const toggleSideInfo = () => {
@@ -21,9 +24,11 @@ const NavBar = () => {
     setOffsetShow(!offsetShow);
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleClick = () => {
+
     navigate("/jobpost");
+
   }
   return (
     <>
@@ -101,6 +106,7 @@ const NavBar = () => {
                         </span>
                       </button>
                     </div>
+
                     <div class="area-separator d-none d-lg-inline-flex"></div>
                     <button className="side-toggle" onClick={toggleSideInfo}>
                       <span className="menu__bar">

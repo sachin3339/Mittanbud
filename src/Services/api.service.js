@@ -27,7 +27,10 @@ const RestService = {
   //auth
   registerUser: (payload) => AxiosService.post(GLOBELCONSTANT.AUTH.REGISTER, payload),
   loginUser: (payload) => AxiosService.post(GLOBELCONSTANT.AUTH.LOGIN, payload),
-  logoutUser: (payload) => AxiosService.post(GLOBELCONSTANT.AUTH.LOGOUT, payload)
+  logoutUser: (payload) => AxiosService.post(GLOBELCONSTANT.AUTH.LOGOUT, payload),
+
+  //job
+  createJob: (payload) => AxiosService.post(GLOBELCONSTANT.JOB.CREATE_JOB, payload)
  
 };
 
