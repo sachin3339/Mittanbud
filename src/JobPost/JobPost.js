@@ -1,14 +1,201 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from '../Components/DatePicker';
-
-
+import { ToastContainer } from 'react-toastify';
+import Select from 'react-select';
+import GLOBELCONSTANT from '../Const/GlobalConst';
+import RestService from '../Services/api.service';
+import ToastMessage from '../Store/ToastHook';
+import ButtonLoader from '../Components/ButtonLoader';
 
 const JobPost = () => {
-    const handleDateChange = (date) => {
-        console.log('Date selected in JobPost component:', date);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [description, setDescription] = useState('');
+    const [title, setTitle] = useState('');
+    const [heading, setHeading] = useState('');
+    const [date, setDate] = useState('');
+    const [buttonLoader, setButtonLoader] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [address, setAddress] = useState('');
+    const [pincode, setPincode] = useState('');
+
+    const [emailError, setEmailError] = useState('');
+    const [nameError, setNameError] = useState('');
+
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOptionCategory, setSelectedOptionCategory] = useState(null);
+    const [subCategoryList, setSubCategoryList] = useState([]);
+    const [loader, setLoader] = useState(false);
+
+    const allCategory = GLOBELCONSTANT.Services.category;
+
+    const category = allCategory.map(category => ({
+        "value": category.categoryname,
+        "label": category.categoryname
+    }))
+
+
+    const handleChangeName = (event) => {
+        const newValue = event.target.value;
+        if (/^[A-Za-z\s]*$/.test(newValue)) {
+            setName(newValue);
+
+            // Check if the length is less than 5 and the string is not empty
+            if (newValue.length === 0) {
+                setNameError('Please Enter your full Name');
+            } else {
+                setNameError(''); // Clear error if the input is valid
+            }
+        } else {
+            setNameError('Name should only contain alphabets and spaces.');
+        }
     };
+
+    const handleEmailChange = (e) => {
+        const value = e.target.value;
+        setEmail(value);
+
+        // Validate email
+        const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+        setEmailError(isValidEmail ? '' : 'Invalid email address');
+    };
+
+
+    const handleChangePhoneNumber = (e) => {
+        setPhoneNumber(e.target.value);
+    };
+
+    const handleChangeAddress = (e) => {
+        setAddress(e.target.value);
+    };
+
+    const handleChangePincode = (e) => {
+        setPincode(e.target.value);
+    };
+
+    const handleChangeTitle = (e) => {
+        setTitle(e.target.value);
+    };
+    const handleChangeHeading = (e) => {
+        setHeading(e.target.value);
+    };
+
+    const handleChangeDescription = (e) => {
+        setDescription(e.target.value);
+    };
+
+    const handleDateChange = (date) => {
+        // const date = e.target.value;
+        changeDateFormat(date);
+    }
+    const changeDateFormat = (dateString) => {
+        // Input date string
+        // const dateString = 'Fri Jul 19 2024 00:00:00 GMT+0530 (India Standard Time)';
+
+        // Create a Date object from the input string
+        const date = new Date(dateString);
+
+        // Format the date to yyyy-mm-dd
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const day = String(date.getDate()).padStart(2, '0');
+
+        const formattedDate = `${year}-${month}-${day}`;
+
+        console.log(formattedDate); // Output: 2024-07-19
+        setDate(formattedDate);
+    }
+
+
+    // Job Post
+    const createJob = () => {
+        setButtonLoader(true);
+        try {
+            const payload = {
+                "name": name,
+                "title": title,
+                "description": description,
+                "email": email,
+                "phoneNumber": phoneNumber,
+                "address": address,
+                "pincode": pincode,
+                "jobHeading": heading,
+                "category": selectedOption?.value,
+                "subcategory": selectedOptionCategory?.map(sub => sub.value),
+                "jobStartDate": date
+
+            }
+
+
+            RestService.createJob(payload).then(
+                response => {
+                    if (response.status === 200 || response.status === 201) {
+                        // setEmailResponse({
+                        //     email: email
+                        // });
+                        // setShowOtpLogin("OTP");
+                        ToastMessage({ type: "success", message: `Job Created Successfully`, time: 2500 });
+                        setTimeout(() => {
+                            setButtonLoader(false);
+                            setName('');
+                            setEmail('');
+                            setAddress('');
+                            setPhoneNumber('');
+                            setDate('');
+                            setHeading('');
+                            setTitle('');
+                            setDescription('');
+                            setSelectedOption(null);
+                            setSelectedOptionCategory(null);
+                            setPincode('')
+
+                        }, 1500);
+                    }
+                },
+                err => {
+                    setButtonLoader(false);
+                    if (err.request.status === 0) {
+
+                        ToastMessage({ type: "error", message: 'Please Check Your Network Connection', time: 2500 });
+                    }
+                    else if (err.response.status === 401) {
+
+                        ToastMessage({ type: "error", message: 'Invalid User Name / Password!', time: 2500 });
+
+                    }
+                    else if (err.response.status === 500) {
+                        ToastMessage({ type: "error", message: `${err.response.data}`, time: 2500 });
+
+                    }
+                    else {
+
+                        ToastMessage({ type: "error", message: 'User with email already exist', time: 2500 });
+                    }
+                }
+            )
+        } catch (err) {
+            // Toast.error({ message: 'Invalid User Name / Password!' })
+            console.error("Error occured on createJob page", err)
+        }
+    }
+
+    useEffect(() => {
+        if (selectedOption !== null) {
+            setLoader(true);
+            const category = allCategory.find(cat => cat.categoryname === selectedOption?.label);
+            const newSub = category ? category.subecategory.map(subcat => ({ label: subcat, value: subcat })) : [];
+
+            console.log(newSub);
+            setSubCategoryList(newSub);
+            setTimeout(() => {
+                setLoader(false);
+            }, 1500);
+
+        }
+    }, [selectedOption]);
     return (
         <>
+            <ToastContainer />
             <main> <div class="adjust-header-space bg-common-white"></div>
 
                 <section class="df-contact__area section-spacing-top p-relative fix">
@@ -30,33 +217,33 @@ const JobPost = () => {
 
                             <div class="df-booking2__form wow fadeInUp" data-wow-delay=".3s" style={{ visibility: "visible", animationDelay: "0.3s", animationName: "fadeInUp" }}>
 
-                                <form action="#">
+                                <div >
                                     <div class="row gx-5">
                                         <div class="col-xl-6">
                                             <div class="col-md-12">
                                                 <div class="df-input-field">
-                                                    <input type="text" id="name" name="name" placeholder="Name *" />
+                                                    <input type="text" id="name" name="name" placeholder="Name *" value={name} onChange={handleChangeName} />
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="df-input-field">
-                                                    <input type="text" id="email" name="email" placeholder="Email *" />
+                                                    <input type="text" id="email" name="email" placeholder="Email *" value={email} onChange={handleEmailChange} />
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="df-input-field">
-                                                    <input type="text" id="number" name="number" placeholder="Number *" />
+                                                    <input type="text" id="number" name="number" placeholder="Number *" value={phoneNumber} onChange={handleChangePhoneNumber} />
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="df-input-field">
-                                                    <input type="text" name="Address" placeholder="Address *" />
+                                                    <input type="text" name="Address" placeholder="Address *" value={address} onChange={handleChangeAddress} />
 
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="df-input-field ">
-                                                    <input type="text" name="Postal code" placeholder="Postal code *" />
+                                                    <input type="text" name="Postal code" placeholder="Postal code *" value={pincode} onChange={handleChangePincode} />
 
                                                 </div>
                                             </div>
@@ -79,12 +266,19 @@ const JobPost = () => {
                                         <div class="col-xl-6">
                                             <div class="col-md-12">
                                                 <div class="df-input-field ">
-                                                    <input type="text" id="Post job" name="Post a job" placeholder="Post a job *" />
+                                                    <input type="text" id="Post job" name="Post a job" placeholder="Post a job *" value={title} onChange={handleChangeTitle} />
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="df-input-field mb-1 ">
-                                                    <select name="Choose the main category" id="service" className="drpdwn-select">
+                                                    <Select
+                                                        value={selectedOption}
+                                                        onChange={setSelectedOption}
+                                                        options={category}
+                                                        isClearable={false}
+                                                        placeholder="Select Category"
+                                                    />
+                                                    {/* <select name="Choose the main category" id="service" className="drpdwn-select">
                                                         <option disabled selected value> -- Choose the main category -- </option>
                                                         <option value="Area">Area</option>
                                                         <option value="cleaning">Bergen</option>
@@ -100,18 +294,29 @@ const JobPost = () => {
                                                         <option value="plumbing">Larvik</option>
                                                         <option value="plumbing">Stavanger</option>
                                                         <option value="plumbing">The ski</option>
-                                                    </select>
+                                                    </select> */}
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="df-input-field">
-                                                    <input type="text" id="Job heading" name="Job heading" placeholder="Job heading *" />
+                                                    <input type="text" id="Job heading" name="Job heading" placeholder="Job heading *" value={heading} onChange={handleChangeHeading} />
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
-
-                                                <div class="df-input-field mb-1">
-                                                    <select name="Select sub category" id="subcategory" className="drpdwn-select">
+                                                {
+                                                    loader ?
+                                                        <div> Loading ...</div>
+                                                        :
+                                                        <div class="df-input-field mb-1">
+                                                            <Select
+                                                                value={selectedOptionCategory}
+                                                                onChange={setSelectedOptionCategory}
+                                                                options={subCategoryList}
+                                                                isClearable={false}
+                                                                isMulti={true}
+                                                                placeholder="Select SubCategory"
+                                                            />
+                                                            {/* <select name="Select sub category" id="subcategory" className="drpdwn-select">
                                                         <option disabled selected value> -- Select sub category -- </option>
                                                         <option value="Area">Area</option>
                                                         <option value="cleaning">Bergen</option>
@@ -127,23 +332,29 @@ const JobPost = () => {
                                                         <option value="plumbing">Larvik</option>
                                                         <option value="plumbing">Stavanger</option>
                                                         <option value="plumbing">The ski</option>
-                                                    </select>
-                                                </div>
+                                                    </select> */}
+                                                        </div>
+                                                }
+
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="df-input-field">
-                                                    <textarea rows={10} cols={10} type="text" name="Job description" placeholder="Job description *" />
+                                                    <textarea rows={10} cols={10} type="text" name="Job description" placeholder="Job description *" value={description} onChange={handleChangeDescription} />
 
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12">
                                                 <div class="df-booking2__form-btn mt-15 mb-30">
-                                                    <button type="submit" class="primary-btn sign-btn w-100">Post
-                                                        <span class="icon__box">
-                                                            <img class="icon__first" src="assets/img/icon/arrow-white.webp" alt="image not found" />
-                                                            <img class="icon__second" src="assets/img/icon/arrow-white.webp" alt="image not found" />
-                                                        </span>
+                                                    <button type="submit" class="primary-btn sign-btn w-100" onClick={createJob}>
+                                                        {
+                                                            buttonLoader ?
+                                                                <ButtonLoader />
+                                                                :
+
+                                                                "Post"
+                                                        }
+
                                                     </button>
                                                 </div>
                                             </div>
@@ -152,7 +363,7 @@ const JobPost = () => {
 
                                     </div>
 
-                                </form>
+                                </div>
 
                             </div>
 
