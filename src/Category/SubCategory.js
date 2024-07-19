@@ -1,9 +1,23 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { POST, POST_ICON } from "../Components/Icon";
+import { useState } from "react";
+import RestService from "../Services/api.service";
+import SkeletonLoader from "../Components/SkeletonLoader";
 
 const SubCategory = () => {
-    const { type } = useParams()
+    const { type } = useParams();
+    const [companyBySubCategory, setCompanyBySubCategory] = useState([]);
+    const [jobBySubCategory, setJobBySubCategory] = useState([]);
+    const [loaderCompany, setLoaderCompany] = useState(false);
+    const [loaderSubCategory, setLoaderSubCategory] = useState(false);
+
+    const navigate=useNavigate()
+    const gotojobpost=()=>{
+        navigate("/jobpost")
+    }
+
+
     const services = [
         {
             imgSrc: "https://rarcode.com/tendersspace/assets/img/service/plumbing.webp",
@@ -42,6 +56,51 @@ const SubCategory = () => {
             detailsLink: "service-details.html"
         }
     ];
+
+    //get Companies By subcategory
+    const getCompaniesBySubCategory = () => {
+        setLoaderCompany(true);
+
+        RestService.getCompaniesBySubCategory(type).then(
+            response => {
+                if (response.status === 200) {
+
+                    setCompanyBySubCategory(response.data.company);
+                    setTimeout(() => {
+                        setLoaderCompany(false);
+                    }, 1500);
+                }
+            }
+        ).catch(err => {
+            console.error("Error occurred on getCompaniesBySubCategory", err);
+        });
+    };
+
+    //get Jobs By subcategory
+    const getJobsBySubCategory = () => {
+        setLoaderSubCategory(true);
+
+        RestService.getJobsBySubCategory(type).then(
+            response => {
+                if (response.status === 200) {
+
+                    setJobBySubCategory(response.data.job);
+                    console.log(response.data.job);
+                    setTimeout(() => {
+                        setLoaderSubCategory(false);
+                    }, 1500);
+                }
+            }
+        ).catch(err => {
+            console.error("Error occurred on getJobsBySubCategory", err);
+        });
+    };
+
+    useEffect(() => {
+        getCompaniesBySubCategory();
+        getJobsBySubCategory();
+    }, []);
+
     return (
 
         <>
@@ -67,7 +126,7 @@ const SubCategory = () => {
                             <div class="col-xl-6 col-lg-6 col-md-6">
                                 <div class="section__title-wrapper text-center">
                                     <div class="df-booking2__form">
-                                        <form action="#">
+                                       
                                             <div class="row gx-5">
                                                 <div class="col-md-12">
                                                     <div class="df-input-field">
@@ -81,7 +140,7 @@ const SubCategory = () => {
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <div class="df-booking2__form-btn mt-0">
+                                                    <div class="df-booking2__form-btn mt-0" onClick={gotojobpost}>
                                                         <button type="submit" class="primary-btn">Post Job
                                                             <span class="icon__box">
                                                                 {POST_ICON}
@@ -90,7 +149,7 @@ const SubCategory = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +175,44 @@ const SubCategory = () => {
                             </div>
 
                         </div>
+                        <div class="row justify-content-center section-title-spacing mb-40 wow fadeInUp" data-wow-delay=".3s" >
+                            <div class="col-xl-8">
+                                <div class="section__title-wrapper text-center">
+                                    <h2 class="section__title" style={{ marginTop: "25px" }}>Explore the companies doing {type}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row g-5 row-cols-xl-3 row-cols-md-2 row-cols-1 wow fadeInUp" data-wow-delay=".3s">
+                            {
+                                loaderCompany ?
+                                    <SkeletonLoader skeletonCount={8} />
+                                    :
+                                    companyBySubCategory?.length !== 0 ?
+                                    companyBySubCategory?.map((service, index) => (
+                                            <div className="col" key={index}>
+                                                <div className="service__box">
+                                                    <div className="service__content" style={{ textAlign: "center" }}>
+                                                        <div className="service__img">
+                                                            <img src={services[0].imgSrc} alt="image not found" />
+                                                        </div>
+                                                        <h4 className="service__title">
+                                                            {service.name}
+                                                        </h4>
+                                                        {/* <p className="service__text">{service.description}</p> */}
+                                                        <div className="get" style={{ marginTop: "25px" }}>
+                                                            <a href="#" className="primary-btn btn-x-small">Get Details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))
+                                        :
 
+                                        <div>
+                                            No Data Found
+                                        </div>
+                            }
+                        </div>
 
 
 
@@ -124,31 +220,41 @@ const SubCategory = () => {
                         <div class="row g-5 justify-content-center section-title-spacing mb-40 wow fadeInUp" data-wow-delay=".3s" >
                             <div class="col-xl-8">
                                 <div class="section__title-wrapper text-center">
-                                    <h2 class="section__title" style={{ marginTop: "25px" }}>Explore the Subcategory doing {type}</h2>
+                                    <h2 class="section__title" style={{ marginTop: "25px" }}>Explore the job of being a {type}</h2>
                                 </div>
                             </div>
                         </div>
 
 
                         <div className="row g-5 row-cols-xl-3 row-cols-md-2 row-cols-1 wow fadeInUp" data-wow-delay=".3s">
-                            {services.map((service, index) => (
-                                <div className="col" key={index}>
-                                    <div className="service__box">
-                                        <div className="service__content" style={{ textAlign: "center" }}>
-                                            <div className="service__img">
-                                                <img src={service.imgSrc} alt="image not found" />
+                            {
+                                loaderSubCategory ?
+                                    <SkeletonLoader skeletonCount={8} />
+                                    :
+                                    jobBySubCategory?.length !== 0 ?
+                                    jobBySubCategory?.map((service, index) => (
+                                            <div className="col" key={index}>
+                                                <div className="service__box">
+                                                    <div className="service__content" style={{ textAlign: "center" }}>
+                                                        <div className="service__img">
+                                                            <img src={services[0].imgSrc} alt="image not found" />
+                                                        </div>
+                                                        <h4 className="service__title">
+                                                            {service.name}
+                                                        </h4>
+                                                        <p className="service__text">{service.description}</p>
+                                                        <div className="get" style={{ marginTop: "25px" }}>
+                                                            <a href="#" className="primary-btn btn-x-small">Get Details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <h4 className="service__title">
-                                                <a href={service.detailsLink}>{service.title}</a>
-                                            </h4>
-                                            <p className="service__text">{service.description}</p>
-                                            <div className="get" style={{ marginTop: "25px" }}>
-                                                <a href="#" className="primary-btn btn-x-small">Get Details</a>
-                                            </div>
+                                        ))
+                                        :
+                                        <div>
+                                            No Data Found
                                         </div>
-                                    </div>
-                                </div>
-                            ))}
+                            }
                         </div>
 
                     </div>
@@ -162,8 +268,5 @@ const SubCategory = () => {
         </>
     );
 };
-
-
-
 
 export default SubCategory;

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { COMPANY_LOGO } from "./Icon";
+import { COMPANY_LOGO, Logout } from "./Icon";
 import GLOBELCONSTANT from "../Const/GlobalConst";
+import RestService from "../Services/api.service";
 
 const NavBar = () => {
   const [infoOpen, setInfoOpen] = useState(false);
@@ -26,10 +27,38 @@ const NavBar = () => {
 
   const navigate = useNavigate();
   const handleClick = () => {
-
-    navigate("/jobpost");
-
+    if (user) {
+      navigate("/jobpost");
+    }
+    else {
+      navigate("/login")
+    }
   }
+
+  //logout the user
+  const logoutUser = async () => {
+
+    try {
+      const userId = user?.user?._id;
+      const payload = {
+        "user_id": userId
+      }
+      const response = await RestService.logoutUser(payload);
+
+      // Navigate to the dashboard
+      if (response.status === 200) {
+        localStorage.clear();
+        navigate('/login');
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        localStorage.clear();
+        navigate('/login');
+      }
+      console.error("Error occurred on logoutUser page", err);
+    }
+  };
+
   return (
     <>
       <div class="mouseCursor cursor-outer"></div>
@@ -80,24 +109,40 @@ const NavBar = () => {
                                   )
                                 })
                               }
+
+
+
+
                             </ul>
 
                           </li>
+                          {
+                            user &&
+
+                            <li><Link to="/dashboard">Dashboard</Link></li>
+                          }
 
                         </ul>
                       </nav>
                     </div>
                   </div>
                   <div class="header__main-right">
-                    <div class="location-search d-none d-lg-inline-flex">
-                      <i class="fas fa-user-tie"></i>
-                      <a href="/login"><span>Sign In</span></a>
-                    </div>
-                    <div class="area-separator d-none d-lg-inline-flex"></div>
-                    <div class="location-search d-none d-lg-inline-flex">
-                      <i class="fas fa-building"></i>
-                      <a href="/register"><span>Register Company</span></a>
-                    </div>
+
+                    {
+                      user?.length === 0 &&
+                      <>
+                        <div class="location-search d-none d-lg-inline-flex">
+                          <i class="fas fa-user-tie"></i>
+                          <a href="/login"><span>Sign In</span></a>
+                        </div>
+                        <div class="area-separator d-none d-lg-inline-flex"></div>
+                        <div class="location-search d-none d-lg-inline-flex">
+                          <i class="fas fa-building"></i>
+                          <a href="/register"><span>Register Company</span></a>
+                        </div>
+                      </>
+                    }
+
                     <div class="location-search d-none d-lg-inline-flex">
                       <button type="submit" class="primary-btn" onClick={handleClick}>Post Job
                         <span class="icon__box">
@@ -117,6 +162,16 @@ const NavBar = () => {
                         </span>
                       </span>
                     </button>
+                    {
+                      user &&
+                      <>
+                        <div class="area-separator d-none d-lg-inline-flex"></div>
+
+                        <div onClick={logoutUser} className="c-p"><span className="mx-2">{Logout}</span> Logout</div>
+                      </>
+                    }
+
+
                   </div>
                 </div>
               </div>

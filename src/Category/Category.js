@@ -1,9 +1,23 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { POST, POST_ICON } from "../Components/Icon";
+import { useState } from "react";
+import RestService from "../Services/api.service";
+import SkeletonLoader from "../Components/SkeletonLoader";
 
 const Category = () => {
-    const { type } = useParams()
+    const { type } = useParams();
+    const [companyByCategory, setCompanyByCategory] = useState([]);
+    const [jobByCategory, setJobByCategory] = useState([]);
+    const [loaderCompany, setLoaderCompany] = useState(false);
+    const [loaderCategory, setLoaderCategory] = useState(false);
+
+    const navigate=useNavigate()
+    const gotojobpost=()=>{
+        navigate("/jobpost")
+    }
+
+
     const services = [
         {
             imgSrc: "https://rarcode.com/tendersspace/assets/img/service/plumbing.webp",
@@ -42,6 +56,52 @@ const Category = () => {
             detailsLink: "service-details.html"
         }
     ];
+
+
+    //get Companies By category
+    const getCompaniesBycategory = () => {
+        setLoaderCompany(true);
+
+        RestService.getCompaniesBycategory(type).then(
+            response => {
+                if (response.status === 200) {
+
+                    setCompanyByCategory(response.data.company);
+                    setTimeout(() => {
+                        setLoaderCompany(false);
+                    }, 1500);
+                }
+            }
+        ).catch(err => {
+            console.error("Error occurred on getCompaniesBycategory", err);
+        });
+    };
+
+    //get Jobs By category
+    const getJobsByCategory = () => {
+        setLoaderCategory(true);
+
+        RestService.getJobsByCategory(type).then(
+            response => {
+                if (response.status === 200) {
+
+                    setJobByCategory(response.data.job);
+                    console.log(response.data.job);
+                    setTimeout(() => {
+                        setLoaderCategory(false);
+                    }, 1500);
+                }
+            }
+        ).catch(err => {
+            console.error("Error occurred on getJobsByCategory", err);
+        });
+    };
+
+    useEffect(() => {
+        getCompaniesBycategory();
+        getJobsByCategory();
+    }, []);
+
     return (
 
         <>
@@ -67,7 +127,7 @@ const Category = () => {
                             <div class="col-xl-6 col-lg-6 col-md-6">
                                 <div class="section__title-wrapper text-center">
                                     <div class="df-booking2__form">
-                                        <form action="#">
+                                        
                                             <div class="row gx-5">
                                                 <div class="col-md-12">
                                                     <div class="df-input-field">
@@ -82,7 +142,7 @@ const Category = () => {
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="df-booking2__form-btn mt-0">
-                                                        <button type="submit" class="primary-btn">Post Job
+                                                        <button type="submit" class="primary-btn" onClick={gotojobpost}>Post Job
                                                             <span class="icon__box">
                                                                 {POST_ICON}
                                                             </span>
@@ -90,7 +150,7 @@ const Category = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -124,24 +184,35 @@ const Category = () => {
                             </div>
                         </div>
                         <div className="row g-5 row-cols-xl-3 row-cols-md-2 row-cols-1 wow fadeInUp" data-wow-delay=".3s">
-                            {services.map((service, index) => (
-                                <div className="col" key={index}>
-                                    <div className="service__box">
-                                        <div className="service__content" style={{ textAlign: "center" }}>
-                                            <div className="service__img">
-                                                <img src={service.imgSrc} alt="image not found" />
+                            {
+                                loaderCompany ?
+                                    <SkeletonLoader skeletonCount={8} />
+                                    :
+                                    companyByCategory?.length !== 0 ?
+                                        companyByCategory?.map((service, index) => (
+                                            <div className="col" key={index}>
+                                                <div className="service__box">
+                                                    <div className="service__content" style={{ textAlign: "center" }}>
+                                                        <div className="service__img">
+                                                            <img src={services[0].imgSrc} alt="image not found" />
+                                                        </div>
+                                                        <h4 className="service__title">
+                                                            {service.name}
+                                                        </h4>
+                                                        {/* <p className="service__text">{service.description}</p> */}
+                                                        <div className="get" style={{ marginTop: "25px" }}>
+                                                            <a href="#" className="primary-btn btn-x-small">Get Details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <h4 className="service__title">
-                                                <a href={service.detailsLink}>{service.title}</a>
-                                            </h4>
-                                            <p className="service__text">{service.description}</p>
-                                            <div className="get" style={{ marginTop: "25px" }}>
-                                                <a href="#" className="primary-btn btn-x-small">Get Details</a>
-                                            </div>
+                                        ))
+                                        :
+
+                                        <div>
+                                            No Data Found
                                         </div>
-                                    </div>
-                                </div>
-                            ))}
+                            }
                         </div>
 
 
@@ -157,24 +228,34 @@ const Category = () => {
 
 
                         <div className="row g-5 row-cols-xl-3 row-cols-md-2 row-cols-1 wow fadeInUp" data-wow-delay=".3s">
-                            {services.map((service, index) => (
-                                <div className="col" key={index}>
-                                    <div className="service__box">
-                                        <div className="service__content" style={{ textAlign: "center" }}>
-                                            <div className="service__img">
-                                                <img src={service.imgSrc} alt="image not found" />
+                            {
+                                loaderCategory ?
+                                    <SkeletonLoader skeletonCount={8} />
+                                    :
+                                    jobByCategory?.length !== 0 ?
+                                        jobByCategory?.map((service, index) => (
+                                            <div className="col" key={index}>
+                                                <div className="service__box">
+                                                    <div className="service__content" style={{ textAlign: "center" }}>
+                                                        <div className="service__img">
+                                                            <img src={services[0].imgSrc} alt="image not found" />
+                                                        </div>
+                                                        <h4 className="service__title">
+                                                            {service.name}
+                                                        </h4>
+                                                        <p className="service__text">{service.description}</p>
+                                                        <div className="get" style={{ marginTop: "25px" }}>
+                                                            <a href="#" className="primary-btn btn-x-small">Get Details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <h4 className="service__title">
-                                                <a href={service.detailsLink}>{service.title}</a>
-                                            </h4>
-                                            <p className="service__text">{service.description}</p>
-                                            <div className="get" style={{ marginTop: "25px" }}>
-                                                <a href="#" className="primary-btn btn-x-small">Get Details</a>
-                                            </div>
+                                        ))
+                                        :
+                                        <div>
+                                            No Data Found
                                         </div>
-                                    </div>
-                                </div>
-                            ))}
+                            }
                         </div>
 
                     </div>
