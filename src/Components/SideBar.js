@@ -13,7 +13,7 @@ const Sidebar = ({
     searchFormVisible,
     handleSwitchMode
 }) => {
-    const menus = [{ "name": 'Dashboard', "route": '/dashboard' }, { "name": 'My Post', "route": '/mypost' }];
+    const menus = [{ "name": 'Home', "route": '/' },{ "name": 'Dashboard', "route": '/dashboard' }, { "name": 'Job Post', "route": '/jobpost' },];
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -56,7 +56,7 @@ const Sidebar = ({
             <ul className="side-menu top">
                 {menus.map((menu, index) => (
                     <li key={index} className={menu.route === location.pathname ? 'active' : ''}>
-                        <Link to={menu.name.toLowerCase().replace(/\s/g, '')}>
+                        <Link to={menu.name === 'Home' ? '/' : menu.name.toLowerCase().replace(/\s/g, '')}>
                             <i className={`bx ${menu.name === 'Dashboard' ? 'bxs-dashboard' :
                                 menu.name === 'My Store' ? 'bxs-shopping-bag-alt' :
                                     menu.name === 'Analytics' ? 'bxs-doughnut-chart' :

@@ -6,6 +6,7 @@ import GLOBELCONSTANT from '../Const/GlobalConst';
 import RestService from '../Services/api.service';
 import ToastMessage from '../Store/ToastHook';
 import ButtonLoader from '../Components/ButtonLoader';
+import { useNavigate } from 'react-router-dom';
 
 const JobPost = () => {
     const [name, setName] = useState('');
@@ -26,6 +27,7 @@ const JobPost = () => {
     const [selectedOptionCategory, setSelectedOptionCategory] = useState(null);
     const [subCategoryList, setSubCategoryList] = useState([]);
     const [loader, setLoader] = useState(false);
+    const navigate = useNavigate();
 
     const allCategory = GLOBELCONSTANT.Services.category;
 
@@ -148,7 +150,7 @@ const JobPost = () => {
                             setSelectedOption(null);
                             setSelectedOptionCategory(null);
                             setPincode('')
-
+                            navigate('/dashboard');
                         }, 1500);
                     }
                 },
@@ -158,18 +160,10 @@ const JobPost = () => {
 
                         ToastMessage({ type: "error", message: 'Please Check Your Network Connection', time: 2500 });
                     }
-                    else if (err.response.status === 401) {
-
-                        ToastMessage({ type: "error", message: 'Invalid User Name / Password!', time: 2500 });
-
-                    }
-                    else if (err.response.status === 500) {
-                        ToastMessage({ type: "error", message: `${err.response.data}`, time: 2500 });
-
-                    }
+                    
                     else {
 
-                        ToastMessage({ type: "error", message: 'User with email already exist', time: 2500 });
+                        ToastMessage({ type: "error", message: err.response.data.errorMessage, time: 2500 });
                     }
                 }
             )

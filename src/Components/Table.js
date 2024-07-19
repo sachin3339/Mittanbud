@@ -56,7 +56,7 @@ const Table = ({ headers, data }) => {
                 <thead>
                     <tr>
                         {headers.map((header, index) => (
-                            <th key={index} onClick={() => sortDataByColumn(header.toLowerCase())}>{header}</th>
+                            <th key={index} onClick={() => sortDataByColumn(header.replace(/\s/g, '').toLowerCase())}>{header}</th>
                         ))}
                         <th>Actions</th>
                     </tr>
@@ -64,7 +64,7 @@ const Table = ({ headers, data }) => {
                 <tbody>
                     {data.map((row, rowIndex) => (
                         <tr key={rowIndex} onClick={() => handleRowClick(rowIndex)}>
-                            {Object.keys(row).map((key, cellIndex) => (
+                            {Object.keys(row).filter(key => key !== 'id').map((key, cellIndex) => (
                                 <td key={cellIndex}>
                                     {key === 'userImage' ? <img src={row[key]} alt="User" /> : key === 'status' ? (
                                         <button className={`status-button ${getStatusColor(row[key])}`}>

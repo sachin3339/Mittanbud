@@ -8,6 +8,7 @@ import NewDashboard from './NewDashboard';
 import DashboardNavbar from './DashboardNavbar';
 import MyPost from './MyPost';
 import PageNotFound from '../Components/PageNotFound';
+import JobPost from '../JobPost/JobPost';
 
 
 const Dashboard = () => {
@@ -79,7 +80,7 @@ const Dashboard = () => {
                 />
                 <Routes>
                     <Route path="/dashboard" element={<NewDashboard />} />
-                    <Route path="/mypost" element={<MyPost />} />
+                    <Route path="/jobpost" element={<JobPost />} />
                     <Route path="*" element={<PageNotFound />} />
                 </Routes>
             </section>

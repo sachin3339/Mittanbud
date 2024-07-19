@@ -13,7 +13,20 @@ const GLOBELCONSTANT = {
         LOGOUT: API + "user/logout",
     },
     JOB: {
-        CREATE_JOB: API + "jobs/postjob"
+        CREATE_JOB: API + "jobs/postjob",
+        VIEW_ALL_JOBS: API + "jobs/viewalljobs",
+        VIEW_JOB_BY_ID: API + "jobs/viewjob/:jobId",
+        APPLY_JOB: API + "jobs/apply/:jobId",
+        COMPLETE_JOB: API + "jobs/complete/:jobId",
+        DELETE_JOB: API + "jobs/deletejob/:jobId",
+        EDIT_JOB: API + "jobs/editjob/:jobId",
+        GET_JOB_APPLICATIONS_BY_ID: API + "jobs/applications/:jobId",
+        JOB_POSTED_BY_USERS: API +  "jobs/user/jobs/posted",
+        JOB_SELECTED: API +  "jobs/user/jobs/selected",
+        GET_COMPANIES_BY_CATEGORY: API + "jobs/getcompaniesbycategory/:category",
+        GET_JOBS_BY_CATEGORY: API + "jobs/getjobsbycategory/:category",
+        GET_COMPANIES_BY_SUBCATEGORY: API + "jobs/getcompaniesbysubCategory/:subcategory",
+        GET_JOBS_BY_SUBCATEGORY: API + "jobs/getjobsbysubcategory/:subcategory"
     },
     Services: {
         category: [
