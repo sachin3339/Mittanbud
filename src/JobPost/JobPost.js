@@ -247,9 +247,9 @@ const JobPost = () => {
 
                                                 </div>
                                             </div>
-                                            <div className="col-md-12">
-                                                <div className='row gx-5'>
-                                                    <div className='col-md-5'>When do you want the job to start?</div>
+                                            <div className="col-md-12 section__subtitle bg-lighter p-4" style={{ borderRadius: "6px" }}>
+                                                <div className='row gx-5 '>
+                                                    <div className='col-md-5 '>When do you want the job to start?</div>
                                                     <div className="df-input-field mb-0 col-md-7">
                                                         <DatePicker
                                                             initialDate={new Date()}
@@ -297,7 +297,7 @@ const JobPost = () => {
                                                     </select> */}
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 mt-3">
                                                 <div class="df-input-field">
                                                     <input type="text" id="Job heading" name="Job heading" placeholder="Job heading *" value={heading} onChange={handleChangeHeading} />
                                                 </div>
@@ -337,7 +337,7 @@ const JobPost = () => {
                                                 }
 
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 mt-3">
                                                 <div class="df-input-field">
                                                     <textarea rows={10} cols={10} type="text" name="Job description" placeholder="Job description *" value={description} onChange={handleChangeDescription} />
 

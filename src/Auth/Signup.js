@@ -93,7 +93,7 @@ const Signup = () => {
                         // });
                         // setShowOtpLogin("OTP");
                         ToastMessage({ type: "success", message: `${response.data?.resultMessage?.en}`, time: 2500 });
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             setButtonLoader(false);
                             navigate("/login");
                         }, 1500);
@@ -140,7 +140,7 @@ const Signup = () => {
                         <div class="row justify-content-center section-title-spacing wow fadeInUp" data-wow-delay=".3s">
                             <div class="col-xl-8">
                                 <div class="section__title-wrapper text-center">
-                                    <span class="section__subtitle bg-lighter">Register a company</span>
+                                    <span class="section__subtitle bg-lighter">Sign up</span>
                                     <h2 class="section__title">Get new customers and jobs</h2>
                                     <p>Thousands of new missions every week. Create a free test profile now and see all the jobs near you.</p>
                                 </div>
@@ -201,11 +201,11 @@ const Signup = () => {
                                                         email.length === 0 || newPassword.length === 0 || passwordError?.length !== 0
                                                         || confirmPassword.length === 0
 
-                                                        }
+                                                    }
                                                         onClick={() => {
-                                                            
-                                                                registerUser();
-                                                            
+
+                                                            registerUser();
+
                                                         }
                                                         }>{
                                                             buttonLoader ?

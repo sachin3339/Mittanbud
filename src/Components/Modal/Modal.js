@@ -53,33 +53,19 @@ const BsModal = ({ show, setShow, selectedOption, setSelectedOption,
     }, [nextFlag]);
 
 
-console.log("selectedOption ", selectedOption);
-console.log("selectedOptionCategory ", selectedOptionCategory);
+    console.log("selectedOption ", selectedOption);
+    console.log("selectedOptionCategory ", selectedOptionCategory);
 
     return (
         <>
 
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{nextFlag ? "Choose SubCategory" : "Choose Category"} </Modal.Title>
+            <Modal show={show} onHide={handleClose} size='lg' >
+                <Modal.Header closeButton className='py-3'>
+                    <Modal.Title className='hero2__subtitle' style={{ marginBottom: "0px", background: "transparent" }}>{nextFlag ? "Choose Sub-Category" : "Choose Category"} </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control
-                                type="email"
-                                placeholder="name@example.com"
-                                autoFocus
-                            />
-                        </Form.Group>
-                        <Form.Group
-                            className="mb-3"
-                            controlId="exampleForm.ControlTextarea1"
-                        >
-                            <Form.Label>Example textarea</Form.Label>
-                            <Form.Control as="textarea" rows={3} />
-                        </Form.Group> */}
+                    <div className='p-5'>
+
                         {
                             nextFlag ?
                                 loader ?
@@ -102,26 +88,26 @@ console.log("selectedOptionCategory ", selectedOptionCategory);
                                     isClearable={true}
                                 />
                         }
-                    </Form>
+                    </div>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer style={{ borderTop: 'none' }}>
                     {
                         nextFlag &&
 
-                        <Button variant="secondary" onClick={() => setNextFlag(!nextFlag)}>
+                        <button className='section__subtitle bg-lighter p-4 mx-3' style={{ borderRadius: "8px" }} onClick={() => setNextFlag(!nextFlag)}>
                             Previous
-                        </Button>
+                        </button>
                     }
-                    <Button variant="primary" disabled={selectedOption?.length === 0 || selectedOption === null} onClick={() =>{
-                        if(nextFlag){
+                    <button className='section__subtitle bg-lighter p-4' style={{ borderRadius: "8px" }} disabled={selectedOption?.length === 0 || selectedOption === null} onClick={() => {
+                        if (nextFlag) {
                             handleCloseChanges();
                         }
-                        else{
+                        else {
                             setNextFlag(!nextFlag);
                         }
-                    } }>
+                    }}>
                         {nextFlag ? "Save Changes" : "Choose Category"}
-                    </Button>
+                    </button>
                 </Modal.Footer>
             </Modal>
         </>

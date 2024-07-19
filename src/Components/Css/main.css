@@ -89,5 +89,13 @@
 ul.dot li{
   list-style-type: circle;
 }
+.modal-content {
+  max-height: 90vh; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds max height */
+  padding: 20px 5px; /* Add padding */
+}
+.c-p{
+  cursor: pointer;
+}
 
 
