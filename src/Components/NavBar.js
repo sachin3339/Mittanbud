@@ -10,8 +10,7 @@ const NavBar = () => {
   let user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : "";
-  const Menu = GLOBELCONSTANT.Services.category
-  console.log(Menu)
+  const Menu = GLOBELCONSTANT.Services.category;
   const toggleSideInfo = () => {
     setInfoOpen(!infoOpen);
     if (!infoOpen) {
