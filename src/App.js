@@ -22,9 +22,10 @@ import Signup from "./Auth/Signup";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 function Layout() {
   const location = useLocation();
-  const validPaths = ["/", "/category", "/jobapply/:type", "/login", "/signup", "/contactus", "/register", "/privacy-policy", "/other-services", "/jobpost", "/dashboard", "/mypost"];
-  const hideNavAndFooter = location.pathname === "/dashboard" || location.pathname === "/mypost" || !validPaths.includes(location.pathname);
-  console.log(location.pathname)
+  const pathname = location.pathname;
+  const checkDynamicRoute = pathname.includes("category");
+  const validPaths = ["/", "/jobapply/:type", "/login", "/signup", "/contactus", "/register", "/privacy-policy", "/other-services", "/jobpost"];
+  const hideNavAndFooter = !validPaths.includes(location.pathname);
   useEffect(() => {
     if (location.pathname === "/dashboard") {
       addBodyClass("dashboard-body");
@@ -38,7 +39,7 @@ function Layout() {
 
   return (
     <>
-      {!hideNavAndFooter && <NavBar />}
+      {(!hideNavAndFooter || checkDynamicRoute) && <NavBar />}
       <ProgressCircle />
       <Routes>
         <Route path="/" element={<Main />} />
@@ -55,7 +56,7 @@ function Layout() {
         <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      {!hideNavAndFooter && <Footer />}
+      {(!hideNavAndFooter || checkDynamicRoute) && <Footer />}
     </>
   );
 }
