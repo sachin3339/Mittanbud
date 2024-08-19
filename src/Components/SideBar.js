@@ -13,7 +13,12 @@ const Sidebar = ({
     searchFormVisible,
     handleSwitchMode
 }) => {
-    const menus = [{ "name": 'Home', "route": '/' },{ "name": 'Dashboard', "route": '/dashboard' }, { "name": 'Job Post', "route": '/jobpost' },];
+    const menus = [
+        { "name": 'Home', "route": '/' },
+        { "name": 'Dashboard', "route": '/dashboard' },
+        // { "name": 'Job Post', "route": '/jobpost' },
+
+    ];
 
     const location = useLocation();
     const navigate = useNavigate();

@@ -97,5 +97,21 @@ ul.dot li{
 .c-p{
   cursor: pointer;
 }
+.sticky-modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensure it stays above other content */
+  background-color: white; /* Optional: Match the header background with the modal */
+}
+.modal-body-scrollable {
+  max-height: 70vh; /* Adjust this value as needed */
+  overflow-y: auto;
+}
 
+.sticky-modal-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1000; /* Ensure it stays above other content */
+  background-color: white; /* Optional: Match the footer background with the modal */
+}
 

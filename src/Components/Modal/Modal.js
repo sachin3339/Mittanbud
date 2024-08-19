@@ -6,7 +6,7 @@ import GLOBELCONSTANT from '../../Const/GlobalConst';
 
 const BsModal = ({ show, setShow, selectedOption, setSelectedOption,
     selectedOptionCategory, setSelectedOptionCategory }) => {
-        
+
     const [filteredSubcategories, setFilteredSubcategories] = useState([]);
     const [nextFlag, setNextFlag] = useState(false);
     const [loader, setLoader] = useState(false);
@@ -71,10 +71,10 @@ const BsModal = ({ show, setShow, selectedOption, setSelectedOption,
         <>
 
             <Modal show={show} onHide={handleClose} size='lg' >
-                <Modal.Header closeButton className='py-3'>
+                <Modal.Header closeButton className='py-3 sticky-modal-header '>
                     <Modal.Title className='hero2__subtitle' style={{ marginBottom: "0px", background: "transparent" }}>{nextFlag ? "Choose Sub-Category" : "Choose Category"} </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="modal-body-scrollable">
                     <div className='p-5'>
 
                         {
@@ -83,36 +83,36 @@ const BsModal = ({ show, setShow, selectedOption, setSelectedOption,
                                     <div>Loading</div>
                                     :
                                     <div className='row'>
-                                    {
-                                        filteredSubcategories?.map((subCategory, index) => {
-                                            return (
-                                                <div className='col-md-6 col-sm-6' key={index}>
-                                                    <div class="df-login align-items-center section__subtitle bg-lighter" style={{ borderRadius: "6px", border: "1px solid" }}>
-                                                        <input type="checkbox" name="Choose Category and SubCategory"
-                                                            onChange={() => handleCheckboxChangeSubCategory(subCategory)}
-                                                            checked={selectedOptionCategory.includes(subCategory)} />
-                                                        <div className="p-3 ">{subCategory}</div>
+                                        {
+                                            filteredSubcategories?.map((subCategory, index) => {
+                                                return (
+                                                    <div className='col-md-6 col-sm-6' key={index}>
+                                                        <div class="df-login align-items-center section__subtitle bg-lighter" style={{ borderRadius: "6px", border: "1px solid" }}>
+                                                            <input type="checkbox" name="Choose Category and SubCategory"
+                                                                onChange={() => handleCheckboxChangeSubCategory(subCategory)}
+                                                                checked={selectedOptionCategory.includes(subCategory)} />
+                                                            <div className="p-3 ">{subCategory}</div>
+                                                        </div>
                                                     </div>
-                                                </div>
 
 
-                                            )
+                                                )
 
-                                        })
-                                    }
-
-
+                                            })
+                                        }
 
 
 
-                                </div>
-                                    // <Select
-                                    //     value={selectedOptionCategory}
-                                    //     onChange={setSelectedOptionCategory}
-                                    //     options={filteredSubcategories}
-                                    //     isMulti={true}
-                                    //     isClearable={true}
-                                    // />
+
+
+                                    </div>
+                                // <Select
+                                //     value={selectedOptionCategory}
+                                //     onChange={setSelectedOptionCategory}
+                                //     options={filteredSubcategories}
+                                //     isMulti={true}
+                                //     isClearable={true}
+                                // />
                                 :
 
                                 <div className='row'>
@@ -142,7 +142,7 @@ const BsModal = ({ show, setShow, selectedOption, setSelectedOption,
                         }
                     </div>
                 </Modal.Body>
-                <Modal.Footer style={{ borderTop: 'none' }}>
+                <Modal.Footer className='sticky-modal-footer'>
                     {
                         nextFlag &&
 

@@ -80,7 +80,7 @@ const Dashboard = () => {
                 />
                 <Routes>
                     <Route path="/dashboard" element={<NewDashboard />} />
-                    <Route path="/jobpost" element={<JobPost />} />
+                    {/* <Route path="/jobpost" element={<JobPost />} />*/}
                     <Route path="*" element={<PageNotFound />} />
                 </Routes>
             </section>
