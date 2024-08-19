@@ -2,27 +2,42 @@ import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import Select from 'react-select';
 import GLOBELCONSTANT from '../../Const/GlobalConst';
 
 const BsModal = ({ show, setShow, selectedOption, setSelectedOption,
     selectedOptionCategory, setSelectedOptionCategory }) => {
-    const allCategory = GLOBELCONSTANT.Services.category;
-    // const [selectedOption, setSelectedOption] = useState(null);
+        
     const [filteredSubcategories, setFilteredSubcategories] = useState([]);
-    // const [selectedOptionCategory, setSelectedOptionCategory] = useState(null);
     const [nextFlag, setNextFlag] = useState(false);
     const [loader, setLoader] = useState(false);
 
-    const category = allCategory.map(category => ({
-        "value": category.categoryname,
-        "label": category.categoryname
-    }));
+    const categoryOne = GLOBELCONSTANT.Services.category;
+
+    const handleCheckboxChangeCategory = (categoryname) => {
+        setSelectedOption((prevSelectedCategories) => {
+            if (prevSelectedCategories.includes(categoryname)) {
+                return prevSelectedCategories.filter(name => name !== categoryname);
+            } else {
+                return [...prevSelectedCategories, categoryname];
+            }
+        });
+    };
+
+    const handleCheckboxChangeSubCategory = (categoryname) => {
+        setSelectedOptionCategory((prevSelectedCategories) => {
+            if (prevSelectedCategories.includes(categoryname)) {
+                return prevSelectedCategories.filter(name => name !== categoryname);
+            } else {
+                return [...prevSelectedCategories, categoryname];
+            }
+        });
+    };
+
 
     const handleClose = () => {
         setShow(false);
-        setSelectedOption(null);
-        setSelectedOptionCategory(null);
+        setSelectedOption([]);
+        setSelectedOptionCategory([]);
     };
 
     const handleCloseChanges = () => {
@@ -32,18 +47,14 @@ const BsModal = ({ show, setShow, selectedOption, setSelectedOption,
     const extractSubcategories = (categoryArray, filterValues) => {
         return categoryArray
             .filter(category => filterValues.includes(category.categoryname))
-            .flatMap(category => category.subecategory)
-            .map(subcategory => ({
-                value: subcategory,
-                label: subcategory
-            }));
+            .flatMap(category => category.subecategory);
     };
 
     useEffect(() => {
-        if (nextFlag && (selectedOption?.length !== 0 || selectedOption !== null)) {
+        if (nextFlag && (selectedOption?.length !== 0)) {
             setLoader(true);
-            const filterValues = selectedOption.map(category => category.value);
-            const subcategories = extractSubcategories(allCategory, filterValues);
+            const filterValues = selectedOption
+            const subcategories = extractSubcategories(categoryOne, filterValues);
             setFilteredSubcategories(subcategories);
             console.log(subcategories);
             setTimeout(() => {
@@ -71,22 +82,63 @@ const BsModal = ({ show, setShow, selectedOption, setSelectedOption,
                                 loader ?
                                     <div>Loading</div>
                                     :
-                                    <Select
-                                        value={selectedOptionCategory}
-                                        onChange={setSelectedOptionCategory}
-                                        options={filteredSubcategories}
-                                        isMulti={true}
-                                        isClearable={true}
-                                    />
+                                    <div className='row'>
+                                    {
+                                        filteredSubcategories?.map((subCategory, index) => {
+                                            return (
+                                                <div className='col-md-6 col-sm-6' key={index}>
+                                                    <div class="df-login align-items-center section__subtitle bg-lighter" style={{ borderRadius: "6px", border: "1px solid" }}>
+                                                        <input type="checkbox" name="Choose Category and SubCategory"
+                                                            onChange={() => handleCheckboxChangeSubCategory(subCategory)}
+                                                            checked={selectedOptionCategory.includes(subCategory)} />
+                                                        <div className="p-3 ">{subCategory}</div>
+                                                    </div>
+                                                </div>
+
+
+                                            )
+
+                                        })
+                                    }
+
+
+
+
+
+                                </div>
+                                    // <Select
+                                    //     value={selectedOptionCategory}
+                                    //     onChange={setSelectedOptionCategory}
+                                    //     options={filteredSubcategories}
+                                    //     isMulti={true}
+                                    //     isClearable={true}
+                                    // />
                                 :
 
-                                <Select
-                                    value={selectedOption}
-                                    onChange={setSelectedOption}
-                                    options={category}
-                                    isMulti={true}
-                                    isClearable={true}
-                                />
+                                <div className='row'>
+                                    {
+                                        categoryOne.map((category, index) => {
+                                            return (
+                                                <div className='col-md-6 col-sm-6' key={index}>
+                                                    <div class="df-login align-items-center section__subtitle bg-lighter" style={{ borderRadius: "6px", border: "1px solid" }}>
+                                                        <input type="checkbox" name="Choose Category and SubCategory"
+                                                            onChange={() => handleCheckboxChangeCategory(category.categoryname)}
+                                                            checked={selectedOption.includes(category.categoryname)} />
+                                                        <div className="p-3 ">{category.categoryname}</div>
+                                                    </div>
+                                                </div>
+
+
+                                            )
+
+                                        })
+                                    }
+
+
+
+
+
+                                </div>
                         }
                     </div>
                 </Modal.Body>
@@ -98,7 +150,7 @@ const BsModal = ({ show, setShow, selectedOption, setSelectedOption,
                             Previous
                         </button>
                     }
-                    <button className='section__subtitle bg-lighter p-4' style={{ borderRadius: "8px" }} disabled={selectedOption?.length === 0 || selectedOption === null} onClick={() => {
+                    <button className='section__subtitle bg-lighter p-4' style={{ borderRadius: "8px" }} disabled={selectedOption?.length === 0} onClick={() => {
                         if (nextFlag) {
                             handleCloseChanges();
                         }

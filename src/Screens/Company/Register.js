@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import RestService from "../../Services/api.service";
 import ToastMessage from "../../Store/ToastHook";
-import { ToastContainer } from "react-bootstrap";
+import { ToastContainer } from "react-toastify";
 import ButtonLoader from "../../Components/ButtonLoader";
 import hidePwdImg from '../../Auth/hide-password.svg';
 import showPwdImg from "../../Auth/show-password.svg";
@@ -26,8 +26,8 @@ const Register = () => {
     const [emailError, setEmailError] = useState('');
     const [nameError, setNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [selectedOptionCategory, setSelectedOptionCategory] = useState(null);
+    const [selectedOption, setSelectedOption] = useState([]);
+    const [selectedOptionCategory, setSelectedOptionCategory] = useState([]);
     const navigate = useNavigate();
 
     const handleChangeName = (event) => {
@@ -90,8 +90,8 @@ const Register = () => {
                 "phoneNumber": phoneNumber,
                 "address": address,
                 "pincode": pincode,
-                "category": selectedOption?.map(category => category.label),
-                "subcategory": selectedOptionCategory?.map(subcategory => subcategory.label)
+                "category": selectedOption,
+                "subcategory": selectedOptionCategory
             }
 
             RestService.registerUser(payload).then(
@@ -110,22 +110,13 @@ const Register = () => {
                 },
                 err => {
                     setButtonLoader(false);
+                    console.log(err);
                     if (err.request.status === 0) {
 
                         ToastMessage({ type: "error", message: 'Please Check Your Network Connection', time: 2500 });
                     }
-                    else if (err.response.status === 401) {
-
-                        ToastMessage({ type: "error", message: 'Invalid User Name / Password!', time: 2500 });
-
-                    }
-                    else if (err.response.status === 500) {
-                        ToastMessage({ type: "error", message: `${err.response.data}`, time: 2500 });
-
-                    }
                     else {
-
-                        ToastMessage({ type: "error", message: 'User with email already exist', time: 2500 });
+                        ToastMessage({ type: "error", message: err?.response?.data?.resultMessage?.en, time: 2500 });
                     }
                 }
             )
