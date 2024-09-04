@@ -1,0 +1,117 @@
+
+/* Scrollbar Styles */
+
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px; /* Increased width for better visibility */
+  height: 5px; /* Added height for horizontal scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(249, 245, 255); 
+  border-radius: 10px; /* Rounded corners for the track */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #0B8D2D; 
+  border-radius: 10px; /* Rounded corners for the handle */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0B8D2D; /* Darker color on hover for better feedback */
+}
+
+/* Handle on active (when clicked) */
+::-webkit-scrollbar-thumb:active {
+  background: #0B8D2D; /* Even darker color when active */
+}
+
+/* Scrollbar corner for when both horizontal and vertical scrollbars are present */
+::-webkit-scrollbar-corner {
+  background: rgb(249, 245, 255); /* Match the track background color */
+}
+
+.df-booking2__form .drpdwn-select{
+    width: 100%;
+    height: 60px;
+    border: 1px solid rgba(20, 20, 20, 0.15);
+    line-height: 60px;
+    border-radius: 0;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 18px;
+   
+    outline: none;
+    padding-left: 20px;
+    padding-right: 44px;
+    position: relative;
+    -webkit-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+        background-color: #fff;
+        border-radius: 5px;
+        border: solid 1px #e8e8e8;
+}
+
+
+/* DatePicker.css */
+.react-calendar__tile--now {
+  background: none;
+}
+
+.react-calendar__tile.selected-date {
+  background: #054616;
+  border-radius: 50%;
+  color: white;
+}
+
+.react-calendar__tile.selected-date:enabled:hover,
+.react-calendar__tile.selected-date:enabled:focus {
+  background: #054616;
+  color: white;
+  border-radius: 50%;
+}
+
+.apply-job-btn{
+  background-color: transparent;
+  border: 1px solid rgba(20, 20, 20, 0.15);
+  padding: 10px;
+  border-radius: 12px;
+}
+.mt-5{
+  margin-top: 20px;
+}
+ul.dot li{
+  list-style-type: circle;
+}
+.modal-content {
+  max-height: 90vh; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds max height */
+  padding: 20px 5px; /* Add padding */
+}
+.c-p{
+  cursor: pointer;
+}
+.sticky-modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensure it stays above other content */
+  background-color: white; /* Optional: Match the header background with the modal */
+}
+.modal-body-scrollable {
+  max-height: 70vh; /* Adjust this value as needed */
+  overflow-y: auto;
+}
+
+.sticky-modal-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1000; /* Ensure it stays above other content */
+  background-color: white; /* Optional: Match the footer background with the modal */
+}
+
